@@ -177,12 +177,6 @@ void mergeSort(int arr[], int left, int right)
 
 
 
-
-
-
-
-
-
 int main() {
 	std::vector<Production> dataSet;
 	std::map<int, std::string> unsorted;
@@ -205,12 +199,17 @@ int main() {
 	std::cout << "4. Sort data using Bubble Sort" << std::endl;
 
 	std::cin >> input;
-	int numInFile;
+	std::string name;;
 
 	if (input == 1) {
-		std::cout << "Pick a data point" << std::endl;
-		std::cin >> numInFile;
-		printSelected(dataSet[numInFile]);
+		std::cout << "Write the name of the desired show" << std::endl;
+		std::cin >> name;
+		for (int i = 0; i < dataSet.size(); i++) {
+			if (dataSet[i].getTitle() == name) {
+				printSelected(dataSet[i]);
+				break;
+			}
+		}
 	}
 	else if (input == 2) {
 		std::cout << "Choose an option" << std::endl;
