@@ -112,10 +112,11 @@ void printSelected(Production show) {
 
 void merge(int arr[], int left, int mid, int right)
 {
-	// Create X ← arr[left..mid] & Y ← arr[mid+1..right]
+	//merge function inspired by the sorting lecture implementation
 	int n1 = mid - left + 1;
 	int n2 = right - mid;
-
+              
+	//subarrys big enough for the data 
 	int X[50000], Y[50000];
 
 	for (int i = 0; i < n1; i++) {
@@ -124,7 +125,7 @@ void merge(int arr[], int left, int mid, int right)
 	for (int j = 0; j < n2; j++) {
 		Y[j] = arr[mid + 1 + j];
 	}
-	// Merge the arrays X and Y into arr
+	//merge the arrays X and Y into arr
 	int i, j, k;
 	i = 0;
 	j = 0;
@@ -143,7 +144,7 @@ void merge(int arr[], int left, int mid, int right)
 		}
 		k++;
 	}
-	// When we run out of elements in either X or Y append the remaining elements
+	//when X or Y runs out of elements, put the rest of the remaining in the array
 	while (i < n1)
 	{
 		arr[k] = X[i];
@@ -163,13 +164,13 @@ void mergeSort(int arr[], int left, int right)
 {
 	if (left < right)
 	{
-		// m is the point where the array is divided into two subarrays
+		//m is the point where the array is divided into two subarrays
 		int mid = left + (right - left) / 2;
 
 		mergeSort(arr, left, mid);
 		mergeSort(arr, mid + 1, right);
 
-		// Merge the sorted subarrays
+		//merge sorted sub arrays
 		merge(arr, left, mid, right);
 	}
 }
@@ -302,13 +303,13 @@ int main() {
 					revenue[i] = dataSet.at(i).getRevenue();
 				}
 
-				auto start = high_resolution_clock::now();	//time calculation
+				auto start = high_resolution_clock::now();	//Time calculation for merge sort. Clock referenced from https://www.geeksforgeeks.org/measure-execution-time-function-cpp/
 				mergeSort(revenue, 0, unsorted.size() - 1);
 				auto stop = high_resolution_clock::now();
 				auto duration = duration_cast<microseconds>(stop - start);
 
 				for (int i = 0; i < 97280 - 1; i++) {
-					std::cout << unsorted.find(revenue[i])->second;
+					std::cout << unsorted.find(revenue[i])->second;       //match sorted items to titles
 					std::cout << " $" << revenue[i];
 					if (revenue[i] != 2947172) {
 						std::cout << ", ";
@@ -455,9 +456,9 @@ int main() {
 			std::string showName;
 			int count = 0;
 			for (int i = 0; i < dataSet.size(); i++) {
-				if (dataSet[i].getYear() == year) {
+				if (dataSet[i].getYear() == year) {              
 					if (dataSet[i].getRevenue() > max) {
-						max = dataSet[i].getRevenue();
+						max = dataSet[i].getRevenue();             //updates max if item in array is larger
 						showName = dataSet[i].getTitle();
 					}
 				}
