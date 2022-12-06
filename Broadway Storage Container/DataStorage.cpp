@@ -1,6 +1,7 @@
-#include <iomanip>
+﻿#include <iomanip>
 #include <iostream>
 #include <fstream>
+
 #include <utility>
 #include <sstream>
 #include <vector>
@@ -8,6 +9,7 @@
 #include <algorithm>
 #include <chrono>
 #include <map>
+#include <cmath>
 
 using namespace std::chrono;
 
@@ -22,8 +24,8 @@ private:
 public:
 	Production();
 	Production(int year, std::string title, std::string theater, std::string type, int attendance, int revenue);
-	
-	
+
+
 
 	//getters
 	int getYear() { return year; }
@@ -105,9 +107,8 @@ void printSelected(Production show) {
 	std::cout << "Theater: " << show.getTheater() << std::endl;
 	std::cout << "Type: " << show.getType() << std::endl;
 	std::cout << "Attendance: " << show.getAttendance() << std::endl;
-	std::cout << "Revenue: $" << show.getRevenue() << std::endl;
+	std::cout << "Revenue: $" << show.getRevenue() << std::endl << std::endl;
 }
-
 
 void merge(int arr[], int left, int mid, int right)
 {
@@ -158,7 +159,6 @@ void merge(int arr[], int left, int mid, int right)
 	}
 }
 
-
 void mergeSort(int arr[], int left, int right)
 {
 	if (left < right)
@@ -174,8 +174,57 @@ void mergeSort(int arr[], int left, int right)
 	}
 }
 
+std::vector<Production> bubbleSort(std::vector<Production> dataSet, int input) {
+	int optionalCounter = 0;
+	bool swap = true;
+	switch (input) {
+	case 1:
+		while (swap) {
+			swap = false;
+			for (unsigned int i = 0; i < dataSet.size() - 95000; i++) {
+				if (dataSet[i].getRevenue() < dataSet[i + 1].getRevenue()) {
+					std::swap(dataSet[i], dataSet[i + 1]);
+					swap = true;
+				}
+			}
+			optionalCounter++;
+			if (optionalCounter % 500 == 0) std::cout << optionalCounter << " passes." << std::endl;
+		}
+		break;
+	case 3:
+		while (swap) {
+			swap = false;
+			for (unsigned int i = 0; i < dataSet.size() - 95000; i++) {
+				if (dataSet[i].getYear() < dataSet[i + 1].getYear()) {
+					std::swap(dataSet[i], dataSet[i + 1]);
+					swap = true;
+				}
+			}
+			optionalCounter++;
+			if (optionalCounter % 500 == 0) std::cout << optionalCounter << " passes." << std::endl;
+		}
+		break;
+	case 2:
+		while (swap) {
+			swap = false;
+			for (unsigned int i = 0; i < dataSet.size() - 95000; i++) {
+				if (dataSet[i].getAttendance() < dataSet[i + 1].getAttendance()) {
+					std::swap(dataSet[i], dataSet[i + 1]);
+					swap = true;
+				}
+			}
+			optionalCounter++;
+			if (optionalCounter % 500 == 0) std::cout << optionalCounter << " passes." << std::endl;
+		}
+		break;
+	default:
+		std::cout << "Invalid input selectiong for Bubble sort!" << std::endl;
+		break;
+	}
 
 
+	return dataSet;
+}
 
 int main() {
 	std::vector<Production> dataSet;
@@ -183,13 +232,12 @@ int main() {
 	std::map<int, std::string> unsorted2;
 	std::map<int, std::string> unsorted3;
 
+	std::cout << "Thank you for choosing 'Break; a Leg' Broadway sorter!\nPlease wait while we get the show ready...\n" << std::endl;
 
-	
-
-
-	dataLoader("C:/Users/Owner/Downloads/Broadway_Data_Pipe.CSV", dataSet);
+	dataLoader("Broadway_Data_Pipe.CSV", dataSet);
 
 	int input = 0;
+
 	while (input != 8) {
 		std::cout << "Broadway Database Menu" << std::endl;
 		std::cout << "Choose an option" << std::endl;
@@ -326,20 +374,62 @@ int main() {
 			}
 		}
 		else if (input == 4) {
+			std::cout << "Hmm, not a great choice. It'll take a long time to sort all of these!\nHow about just the first 5,000?\n" << std::endl;
 			std::cout << "Choose an option" << std::endl;
-			std::cout << "1. Print all shows sorted by revenue" << std::endl;
-			std::cout << "2. Print all shows sorted by attendance" << std::endl;
-			std::cout << "3. Print all shows sorted by year" << std::endl;
+			std::cout << "1. Print the top 5 shows sorted by revenue" << std::endl;
+			std::cout << "2. Print the top 5 shows sorted by attendance" << std::endl;
+			std::cout << "3. Print the top 5 shows sorted by year" << std::endl;
 			std::cin >> input;
+			
+			std::vector<Production> bubbleSorted;
 
 			if (input == 1) {
 				//bubble sort revenue
+				auto start = high_resolution_clock::now();	//time calculation
+				bubbleSorted = bubbleSort(dataSet, 1);
+				auto stop = high_resolution_clock::now();
+				auto duration = duration_cast<microseconds>(stop - start);
+				for (unsigned int i = 0; i < 5; i++) {
+					std::cout << i + 1 << ": " << std::endl;
+					printSelected(bubbleSorted[i]);
+				}
+				double adjustedDuration = (duration_cast<microseconds>(stop - start)).count();
+				adjustedDuration = adjustedDuration / 1000000;
+				std::cout << "Time taken by function: " << adjustedDuration << " seconds\n" << std::endl;
+				adjustedDuration = pow(((sqrt(adjustedDuration) / 5000) * 100000),2);
+				std::cout << "Estimated time taken to sort all shows: " << adjustedDuration / 60 << " minutes\n" << std::endl;
 			}
 			else if (input == 2) {
 				//bubble sort attendance
+				auto start = high_resolution_clock::now();	//time calculation
+				bubbleSorted = bubbleSort(dataSet, 2);
+				auto stop = high_resolution_clock::now();
+				auto duration = duration_cast<microseconds>(stop - start);
+				for (unsigned int i = 0; i < 5; i++) {
+					std::cout << i + 1 << ": " << std::endl;
+					printSelected(bubbleSorted[i]);
+				}
+				double adjustedDuration = (duration_cast<microseconds>(stop - start)).count();
+				adjustedDuration = adjustedDuration / 1000000;
+				std::cout << "Time taken by function: " << adjustedDuration << " seconds\n" << std::endl;
+				adjustedDuration = pow(((sqrt(adjustedDuration) / 5000) * 100000), 2);
+				std::cout << "Estimated time taken to sort all shows: " << adjustedDuration / 60 << " minutes\n" << std::endl;
 			}
 			else if (input == 3) {
 				//bubble sort year
+				auto start = high_resolution_clock::now();	//time calculation
+				bubbleSorted = bubbleSort(dataSet, 3);
+				auto stop = high_resolution_clock::now();
+				auto duration = duration_cast<microseconds>(stop - start);
+				for (unsigned int i = 0; i < 5; i++) {
+					std::cout << i + 1 << ": " << std::endl;
+					printSelected(bubbleSorted[i]);
+				}
+				double adjustedDuration = (duration_cast<microseconds>(stop - start)).count();
+				adjustedDuration = adjustedDuration / 1000000;
+				std::cout << "Time taken by function: " << adjustedDuration << " seconds\n" << std::endl;
+				adjustedDuration = pow(((sqrt(adjustedDuration) / 5000) * 100000), 2);
+				std::cout << "Estimated time taken to sort all shows: " << adjustedDuration / 60 << " minutes\n" << std::endl;
 			}
 			else {
 				std::cout << "Please select a valid menu option" << std::endl;
@@ -358,41 +448,42 @@ int main() {
 			std::cout << name << " has had " << count << " revivals." << std::endl;
 		}
 		else if (input == 6) {
-		std::cout << "Enter year" << std::endl;
-		int year;
-		std::cin >> year;
-		int max=0;
-		std::string showName;
-		int count = 0;
-		for (int i = 0; i < dataSet.size(); i++) {
-			if (dataSet[i].getYear() == year) {
-				if (dataSet[i].getRevenue() > max) {
-					max = dataSet[i].getRevenue();
-					showName = dataSet[i].getTitle();
+			std::cout << "Enter year" << std::endl;
+			int year;
+			std::cin >> year;
+			int max = 0;
+			std::string showName;
+			int count = 0;
+			for (int i = 0; i < dataSet.size(); i++) {
+				if (dataSet[i].getYear() == year) {
+					if (dataSet[i].getRevenue() > max) {
+						max = dataSet[i].getRevenue();
+						showName = dataSet[i].getTitle();
+					}
 				}
 			}
+			std::cout << "Highest grossing show in " << year << " is \"" << showName << "\" with $" << max << std::endl;
 		}
-		std::cout << "Highest grossing show in " << year <<" is \"" <<showName << "\" with $" << max << std::endl;
-		}
-
 		else if (input == 7) {
-		std::cout << "Enter year" << std::endl;
-		int year;
-		std::cin >> year;
-		int max = 0;
-		std::string showName;
-		int count = 0;
-		for (int i = 0; i < dataSet.size(); i++) {
-			if (dataSet[i].getYear() == year) {
-				if (dataSet[i].getAttendance() > max) {
-					max = dataSet[i].getAttendance();
-					showName = dataSet[i].getTitle();
+			std::cout << "Enter year" << std::endl;
+			int year;
+			std::cin >> year;
+			int max = 0;
+			std::string showName;
+			int count = 0;
+			for (int i = 0; i < dataSet.size(); i++) {
+				if (dataSet[i].getYear() == year) {
+					if (dataSet[i].getAttendance() > max) {
+						max = dataSet[i].getAttendance();
+						showName = dataSet[i].getTitle();
+					}
 				}
 			}
+			std::cout << "Most attended show in " << year << " is \"" << showName << "\" with " << max << " in attendance." << std::endl;
 		}
-		std::cout << "Most attended show in " << year << " is \"" << showName << "\" with " << max << " in attendance." <<std::endl;
+		else if (input == 8) {
+		std::cout << "Thank you for using 'Break; a Leg' Broadway sorter! Goodbye!" << std::endl;
 		}
-
 
 
 
