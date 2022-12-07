@@ -1,7 +1,7 @@
 # Broadway_Sort
 The Tree Muskateers DSA final project - sorting broadway shows pulled from a CSV based on a variety of user inputs.
 
-======================================================= Break; a Leg! Broadway Sorter =====================================================
+================== Break; a Leg! Broadway Sorter =====================
 
 Included are a .cpp file with code that pulls data from any .csv file you select (filename is hardcoded) as long as the file uses pipes (|)
 as delimiters. It also contains a print function that prints out all information from a user-selected production. The DataStorage.cpp file can be placed in the same folder as the Broadway_Data_Pipe.csv file (as it is in this repo) and run and it should access the file correctly.
