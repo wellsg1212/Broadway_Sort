@@ -291,7 +291,7 @@ int main() {
 
 
         std::cin >> input;
-        std::string name;;
+        std::string name;
 
         if (input == 1) {
             std::cout << "Type the name of the desired show" << std::endl;
